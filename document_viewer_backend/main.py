@@ -20,64 +20,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Sample data for document metadata
-documents_metadata = [
-    {
-        "name": "Resume.pdf",
-        "overall_score": 40,
-        "summary": "Document summary here",
-        "feedback": "Our feedback here",
-        "assessment_data": {
-            "rag_implementation": {"score": 1, "justification": "RAG Implementation score"},
-            "fine_tuning": {"score": 1, "justification": "Fine Tuning score"},
-            "multimodal_ai": {"score": 1, "justification": "MultiModal AI score"},
-            "python_and_libraries": {"score": 1, "justification": "Python & Libraries score"},
-            "ai_modeling": {"score": 1, "justification": "AI Modeling score"},
-            "analyzing_user_data": {"score": 1, "justification": "Analyzing User Data score"},
-            "problem_solving": {"score": 1, "justification": "Problem Solving score"},
-            "teamwork": {"score": 1, "justification": "Teamwork score"},
-            "motivation": {"score": 1, "justification": "Motivation score"},
-        },
-        "assessment_criteria": {
-            "criteria_1": {"score": 35, "justification": "Justification for the score"},
-            "criteria_2": {"score": 45, "justification": "Justification for the score"},
-            "criteria_3": {"score": 35, "justification": "Justification for the score"},
-            "criteria_4": {"score": 45, "justification": "Justification for the score"},
-            "criteria_5": {"score": 30, "justification": "Justification for the score"},
-            "criteria_6": {"score": 30, "justification": "Justification for the score"},
-        },
-        "submission_time": "5:01PM 5/18/23",
-        "overall_rating": "Needs Improvement"
-    },
-    {
-        "name": "Resume1.pdf",
-        "overall_score": 85,
-        "summary": "Document summary here",
-        "feedback": "Our feedback here",
-"assessment_data": {
-            "rag_implementation": {"score": 1, "justification": "RAG Implementation score"},
-            "fine_tuning": {"score": 1, "justification": "Fine Tuning score"},
-            "multimodal_ai": {"score": 1, "justification": "MultiModal AI score"},
-            "python_and_libraries": {"score": 1, "justification": "Python & Libraries score"},
-            "ai_modeling": {"score": 1, "justification": "AI Modeling score"},
-            "analyzing_user_data": {"score": 1, "justification": "Analyzing User Data score"},
-            "problem_solving": {"score": 1, "justification": "Problem Solving score"},
-            "teamwork": {"score": 1, "justification": "Teamwork score"},
-            "motivation": {"score": 1, "justification": "Motivation score"},
-        },
-        "assessment_criteria": {
-            "criteria_1": {"score": 80, "justification": "Justification for the score"},
-            "criteria_2": {"score": 90, "justification": "Justification for the score"},
-            "criteria_3": {"score": 85, "justification": "Justification for the score"},
-            "criteria_4": {"score": 90, "justification": "Justification for the score"},
-            "criteria_5": {"score": 80, "justification": "Justification for the score"},
-            "criteria_6": {"score": 85, "justification": "Justification for the score"},
-        },
-        "submission_time": "4:01PM 6/15/23",
-        "overall_rating": "Good"
-    }
-]
-
 # Initialize the database
 def init_db():
     conn = sqlite3.connect(DATABASE)

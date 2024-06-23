@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { FaFilter } from 'react-icons/fa';
+import { TbArrowsSort } from 'react-icons/tb';
+import { HiOutlineSearch } from 'react-icons/hi';
 
 export default function Dashboard() {
   const [documents, setDocuments] = useState([]);
@@ -18,31 +21,61 @@ export default function Dashboard() {
   };
   return (
     <>
-      <div className="flex flex-row flex-wrap gap-y-9 ">
-        <div className="flex-initial w-44 flex-wrap from-purple-500 to-blue-500 text-white bg-gradient-to-r p-4 rounded-lg shadow-md text-center mr-4">
+      <div className="flex flex-row flex-wrap">
+        <div className="flex-initial content-center w-44 flex-wrap from-purple-500 to-blue-500 text-white bg-gradient-to-r p-4 rounded-lg shadow-md text-center mr-4">
           <p className="text-lg">Total</p>
           <p className="text-3xl font-bold">200</p>
         </div>
-        <div className="flex-initial w-64 bg-gradient-to-r from-green-500 to-teal-500 text-white p-4 rounded-lg shadow-md text-center mr-4">
+        <div className="flex-initial content-center w-64 text-gray-500 p-4 rounded-lg shadow-md text-center mr-4">
           <p className="text-lg">Percentage Assessed</p>
-          <p className="text-3xl font-bold">100%</p>
-          <p className="text-sm">18/18</p>
+          <span className="text-3xl font-bold text-blue-500">100%</span>
+          <span className="text-sm text-blue-500 ml-2">18/18</span>
         </div>
-        <div className="flex-1 bg-white p-4 rounded-lg shadow-md text-center mr-4">
-          <p className="text-lg">Submission Quality</p>
-          <div className="flex justify-center space-x-1 mt-2">
-            <span className="bg-red-500 text-xs font-bold py-1 px-2 rounded-full text-white">2</span>
-            <span className="bg-orange-500 text-xs font-bold py-1 px-2 rounded-full text-white">10</span>
-            <span className="bg-yellow-500 text-xs font-bold py-1 px-2 rounded-full text-white">10</span>
-            <span className="bg-green-500 text-xs font-bold py-1 px-2 rounded-full text-white">15</span>
-            <span className="bg-blue-500 text-xs font-bold py-1 px-2 rounded-full text-white">15</span>
+        <div className="bg-white p-4 content-center rounded-lg shadow-md text-sm font-bold mr-4">
+          <h3 className="text-center text-lg font-medium text-gray-700">Submission Quality</h3>
+          <div className="flex">
+            <div className="bg-red-100 rounded-l-lg p-2 text-center">
+              <p className="text-red-500 font-semibold">Needs Improvement</p>
+              <p className="text-red-500 font-bold text-xl">2</p>
+            </div>
+            <div className="bg-red-300 p-2 text-center">
+              <span className="bg-red-500 w-4 h-4 rounded-full inline-block"></span>
+              <p className="text-red-500">15</p>
+            </div>
+            <div className="bg-orange-300 p-2 text-center">
+              <span className="bg-orange-500 w-4 h-4 rounded-full inline-block"></span>
+              <p className="text-orange-500">10</p>
+            </div>
+            <div className="bg-yellow-300 p-2 text-center">
+              <span className="bg-yellow-500 w-4 h-4 rounded-full inline-block"></span>
+              <p className="text-yellow-500">10</p>
+            </div>
+            <div className="bg-purple-300 p-2 text-center">
+              <span className="bg-purple-500 w-4 h-4 rounded-full inline-block"></span>
+              <p className="text-purple-500">10</p>
+            </div>
+            <div className="bg-indigo-300 p-2 text-center">
+              <span className="bg-indigo-500 w-4 h-4 rounded-full inline-block"></span>
+              <p className="text-indigo-500">10</p>
+            </div>
+            <div className="bg-blue-300 p-2 text-center">
+              <span className="bg-blue-500 w-4 h-4 rounded-full inline-block"></span>
+              <p className="text-blue-500">15</p>
+            </div>
+            <div className="bg-cyan-300 p-2 text-center">
+              <span className="bg-cyan-500 w-4 h-4 rounded-full inline-block"></span>
+              <p className="text-cyan-500">15</p>
+            </div>
+            <div className="w-28 bg-green-300 rounded-r-lg p-2 text-center">
+              <p className="text-green-500 font-semibold">Excellent</p>
+              <p className="text-green-500 font-bold text-xl">10</p>
+            </div>
           </div>
         </div>
-        <div className="w-48 p-4 rounded-lg shadow-md text-center">
+        <div className="w-52 p-4 content-center text-gray-500 rounded-lg shadow-md text-center">
           <p className="text-lg">Shortlist</p>
-          <p className="text-3xl font-bold">20</p>
+          <p className="text-3xl font-bold text-blue-500">20</p>
         </div>
-
       </div>
       <div className="flex flex-col md:flex-row flex-wrap md:flex-nowrap justify-between items-center mb-4 space-y-4 md:space-y-0">
       </div>
@@ -57,9 +90,22 @@ export default function Dashboard() {
             <button className="bg-gray-200 py-2 px-4 rounded-md">Satisfactory</button>
             <button className="bg-gray-200 py-2 px-4 rounded-md">Needs Improvement</button>
           </div>
-          <div className="flex space-x-4">
-            <button className="bg-gray-200 py-2 px-4 rounded-md">Filter</button>
-            <button className="bg-gray-200 py-2 px-4 rounded-md">Search</button>
+          <div className="flex items-center">
+            <button className="flex items-center space-x-2 text-blue-500 py-2 px-4 bg-white rounded-lg shadow-md">
+              <FaFilter className="w-4 h-4" />
+              <span className="text-gray-700">Filter</span>
+            </button>
+            <button className="ml-2 flex items-center space-x-2 text-blue-500 py-2 px-4 bg-white rounded-lg shadow-md">
+              <TbArrowsSort className="w-5 h-5" />
+            </button>
+            <div className="ml-2 flex items-center space-x-2 text-blue-500 py-2 px-4 bg-white rounded-lg shadow-md border w-full">
+              <HiOutlineSearch className="w-5 h-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search"
+                className="ml-2 w-full border-none focus:outline-none"
+              />
+            </div>
           </div>
         </div>
         <div className="overflow-x-auto">
