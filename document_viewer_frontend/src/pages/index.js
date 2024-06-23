@@ -1,148 +1,126 @@
-import Layout from '@/components/Layout';
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
-export default function Home() {
+export default function Dashboard() {
   const [documents, setDocuments] = useState([]);
-  const [selectedDocument, setSelectedDocument] = useState(null);
-  const [documentMetadata, setDocumentMetadata] = useState(null);
 
   useEffect(() => {
-    // Fetch the list of documents
-    fetch('/api/documents')
+    fetch('http://127.0.0.1:8000/all-documents')
       .then((res) => res.json())
-      .then((data) => setDocuments(data.documents));
+      .then((data) => setDocuments(data));
   }, []);
-
-  const handleDocumentSelect = (documentName) => {
-    setSelectedDocument(documentName);
-    // Fetch the document metadata
-    fetch(`/api/documents/${documentName}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setDocumentMetadata(data || null)
-      });
-  };
-
+console.log(documents);
   return (
-    <Layout>
- 
-    <div className="space-y-8">
-      <div className="grid grid-cols-1 lg:grid-cols-10 gap-8">
-        <div className="col-span-10 lg:col-span-7">
-          <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-            <h3 className="text-lg leading-6 font-medium text-gray-900">
-              Select a document
-            </h3>
-            <div className="mt-2 max-w-xl text-sm text-gray-500">
-              <p>
-                Use the dropdown below to select a document and view its assessment details.
-              </p>
-            </div>
-            <div className="mt-5">
-              <select
-                onChange={(e) => handleDocumentSelect(e.target.value)}
-                className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-              >
-                <option value="">Select a document</option>
-                {documents.map((doc) => (
-                  <option key={doc} value={doc}>
-                    {doc}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          {selectedDocument && (
-            <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-              <iframe
-                src={`http://localhost:8000/documents/view/${selectedDocument}`}
-                width="100%"
-                height="600"
-                className="border-0"
-              ></iframe>
-            </div>
-          )}
+    <>
+      <div className="flex flex-row flex-wrap gap-y-9 ">
+        <div className="flex-initial w-44 flex-wrap from-purple-500 to-blue-500 text-white bg-gradient-to-r p-4 rounded-lg shadow-md text-center mr-4">
+          <p className="text-lg">Total</p>
+          <p className="text-3xl font-bold">200</p>
         </div>
-        {documentMetadata && (
-          <div className="col-span-10 lg:col-span-3">
-            <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg leading-6 font-medium text-gray-900">
-                  Document Score
-                </h3>
-                <span className="text-3xl font-bold text-red-500">{documentMetadata.overall_score}</span>
-              </div>
-              <div className="mt-4 w-full h-4 bg-gray-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-green-500"
-                  style={{ width: `${documentMetadata.overall_score}%` }}
-                ></div>
-              </div>
-              <div className="mt-4">
-                <h3 className="text-lg font-bold">Summary</h3>
-                <div className="flex items-center mt-2">
-                  <p className="text-gray-600">{documentMetadata.summary}</p>
-                </div>
-              </div>
-              <div className="mt-4">
-                <h3 className="text-lg font-bold">Feedback</h3>
-                <div className="flex items-center mt-2">
-                  <p className="text-gray-600">{documentMetadata.feedback}</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-xl font-bold">Result Summary</h2>
-              <div className="mt-4">
-                <div className="flex items-center justify-between py-2">
-                  <h3 className="text-md font-medium">Relevance to Critical Technology Areas</h3>
-                  <span className="text-md font-bold text-red-500">{documentMetadata.assessment_data.criteria_1.score}</span>
-                </div>
-                <div className="flex items-center justify-between py-2">
-                  <h3 className="text-md font-medium">Impact and Value</h3>
-                  <span className="text-md font-bold text-green-500">{documentMetadata.assessment_data.criteria_2.score}</span>
-                </div>
-                <div className="flex items-center justify-between py-2">
-                  <h3 className="text-md font-medium">Innovation</h3>
-                  <span className="text-md font-bold text-yellow-500">{documentMetadata.assessment_data.criteria_3.score}</span>
-                </div>
-                <div className="flex items-center justify-between py-2">
-                  <h3 className="text-md font-medium">Connection to U.S DoD Programs</h3>
-                  <span className="text-md font-bold text-orange-500">{documentMetadata.assessment_data.criteria_4.score}</span>
-                </div>
-              </div>
-            </div>
+        <div className="flex-initial w-64 bg-gradient-to-r from-green-500 to-teal-500 text-white p-4 rounded-lg shadow-md text-center mr-4">
+          <p className="text-lg">Percentage Assessed</p>
+          <p className="text-3xl font-bold">100%</p>
+          <p className="text-sm">18/18</p>
+        </div>
+        <div className="flex-1 bg-white p-4 rounded-lg shadow-md text-center mr-4">
+          <p className="text-lg">Submission Quality</p>
+          <div className="flex justify-center space-x-1 mt-2">
+            <span className="bg-red-500 text-xs font-bold py-1 px-2 rounded-full text-white">2</span>
+            <span className="bg-orange-500 text-xs font-bold py-1 px-2 rounded-full text-white">10</span>
+            <span className="bg-yellow-500 text-xs font-bold py-1 px-2 rounded-full text-white">10</span>
+            <span className="bg-green-500 text-xs font-bold py-1 px-2 rounded-full text-white">15</span>
+            <span className="bg-blue-500 text-xs font-bold py-1 px-2 rounded-full text-white">15</span>
           </div>
-        )}
+        </div>
+        <div className="w-48 p-4 rounded-lg shadow-md text-center">
+          <p className="text-lg">Shortlist</p>
+          <p className="text-3xl font-bold">20</p>
+        </div>
+
       </div>
-      {documentMetadata && (
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-bold">Assessment Criteria</h2>
-          <table className="w-full mt-4">
+      <div className="flex flex-col md:flex-row flex-wrap md:flex-nowrap justify-between items-center mb-4 space-y-4 md:space-y-0">
+      </div>
+
+      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
+          <div className="flex space-x-2 mb-4 sm:mb-0">
+            <button className="bg-blue-500 text-white py-2 px-4 rounded-md">All</button>
+            <button className="bg-gray-200 py-2 px-4 rounded-md">Top 20</button>
+            <button className="bg-gray-200 py-2 px-4 rounded-md">Excellent</button>
+            <button className="bg-gray-200 py-2 px-4 rounded-md">Good</button>
+            <button className="bg-gray-200 py-2 px-4 rounded-md">Satisfactory</button>
+            <button className="bg-gray-200 py-2 px-4 rounded-md">Needs Improvement</button>
+          </div>
+          <div className="flex space-x-4">
+            <button className="bg-gray-200 py-2 px-4 rounded-md">Filter</button>
+            <button className="bg-gray-200 py-2 px-4 rounded-md">Search</button>
+          </div>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 text-left text-xs font-medium text-gray-500 uppercase">
             <thead>
               <tr>
-                <th className="text-left">Criterion</th>
-                <th className="text-left">Score</th>
-                <th className="text-left">Weightage</th>
-                <th className="text-left">Justification</th>
+                <th className="px-6 py-3">Name</th>
+                <th className="px-6 py-3">Submission Time</th>
+                <th className="px-6 py-3">Overall Score</th>
+                <th className="px-6 py-3">Overall Rating</th>
+                <th className="px-6 py-3">RAG Implementation</th>
+                <th className="px-6 py-3">Fine Tuning</th>
+                <th className="px-6 py-3">MultiModal AI</th>
+                <th className="px-6 py-3">Python & Libraries</th>
+                <th className="px-6 py-3">AI Modeling</th>
+                <th className="px-6 py-3">Analyzing User Data</th>
+                <th className="px-6 py-3">Problem Solving</th>
+                <th className="px-6 py-3">Teamwork</th>
+                <th className="px-6 py-3">Motivation</th>
+                <th className="px-6 py-3">Add to shortlist</th>
               </tr>
             </thead>
-            <tbody>
-              {Object.entries(documentMetadata.assessment_data).map(
-                ([criteria, data], index) => (
-                  <tr key={index} className="border-b">
-                    <td className="py-2">{criteria.replace('_', ' ').toUpperCase()}</td>
-                    <td className="py-2">{data.score}</td>
-                    <td className="py-2">50%</td> {/* Assuming static weightage for now */}
-                    <td className="py-2">{data.justification}</td>
-                  </tr>
-                )
-              )}
+            <tbody className="bg-white divide-y divide-gray-200">
+              {documents.map((doc, index) => (
+                <tr key={index}>
+                  <td className="px-6 py-4 ">
+                    <Link href={`/projectView/${doc.name}`} className="text-indigo-600 hover:text-indigo-900">
+                      {doc.name}</Link></td>
+                  <td className="px-6 py-4 ">{doc.submission_time}</td>
+                  <td className="px-6 py-4 ">{doc.overall_score}</td>
+                  <td className="px-6 py-4 ">{doc.overall_rating}</td>
+                  <td className="px-6 py-4 ">
+                    <span className="bg-blue-500 w-4 h-4 rounded-full inline-block"></span>
+                  </td>
+                  <td className="px-6 py-4 ">
+                    <span className="bg-green-500 w-4 h-4 rounded-full inline-block"></span>
+                  </td>
+                  <td className="px-6 py-4 ">
+                    <span className="bg-orange-500 w-4 h-4 rounded-full inline-block"></span>
+                  </td>
+                  <td className="px-6 py-4 ">
+                    <span className="bg-blue-500 w-4 h-4 rounded-full inline-block"></span>
+                  </td>
+                  <td className="px-6 py-4 ">
+                    <span className="bg-green-500 w-4 h-4 rounded-full inline-block"></span>
+                  </td>
+                  <td className="px-6 py-4 ">
+                    <span className="bg-red-500 w-4 h-4 rounded-full inline-block"></span>
+                  </td>
+                  <td className="px-6 py-4 ">
+                    <span className="bg-blue-500 w-4 h-4 rounded-full inline-block"></span>
+                  </td>
+                  <td className="px-6 py-4 ">
+                    <span className="bg-green-500 w-4 h-4 rounded-full inline-block"></span>
+                  </td>
+                  <td className="px-6 py-4 ">
+                    <span className="bg-blue-500 w-4 h-4 rounded-full inline-block"></span>
+                  </td>
+                  <td className="px-6 py-4 ">
+                    <input type="checkbox" className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
-      )}
-    </div>
-    </Layout>
-  );
+      </div>
+    </>
+  )
 }

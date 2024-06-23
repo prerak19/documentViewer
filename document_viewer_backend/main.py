@@ -1,20 +1,44 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 import os
-import json
+import random
+import sqlite3
+from pydantic import BaseModel
+from typing import List, Dict
 
 app = FastAPI()
 
 DOCUMENTS_FOLDER = "./documents"  # Folder containing PDF files
+DATABASE = 'documents.db'
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Sample data for document metadata
-document_metadata = {
-    "Resume.pdf": {
+documents_metadata = [
+    {
         "name": "Resume.pdf",
         "overall_score": 40,
         "summary": "Document summary here",
         "feedback": "Our feedback here",
         "assessment_data": {
+            "rag_implementation": {"score": 1, "justification": "RAG Implementation score"},
+            "fine_tuning": {"score": 1, "justification": "Fine Tuning score"},
+            "multimodal_ai": {"score": 1, "justification": "MultiModal AI score"},
+            "python_and_libraries": {"score": 1, "justification": "Python & Libraries score"},
+            "ai_modeling": {"score": 1, "justification": "AI Modeling score"},
+            "analyzing_user_data": {"score": 1, "justification": "Analyzing User Data score"},
+            "problem_solving": {"score": 1, "justification": "Problem Solving score"},
+            "teamwork": {"score": 1, "justification": "Teamwork score"},
+            "motivation": {"score": 1, "justification": "Motivation score"},
+        },
+        "assessment_criteria": {
             "criteria_1": {"score": 35, "justification": "Justification for the score"},
             "criteria_2": {"score": 45, "justification": "Justification for the score"},
             "criteria_3": {"score": 35, "justification": "Justification for the score"},
@@ -22,147 +46,74 @@ document_metadata = {
             "criteria_5": {"score": 30, "justification": "Justification for the score"},
             "criteria_6": {"score": 30, "justification": "Justification for the score"},
         },
+        "submission_time": "5:01PM 5/18/23",
+        "overall_rating": "Needs Improvement"
     },
-        "Resume1.pdf": {
+    {
         "name": "Resume1.pdf",
-        "overall_score": 40,
+        "overall_score": 85,
         "summary": "Document summary here",
         "feedback": "Our feedback here",
-        "assessment_data": {
-            "criteria_1": {"score": 35, "justification": "Justification for the score"},
-            "criteria_2": {"score": 45, "justification": "Justification for the score"},
-            "criteria_3": {"score": 35, "justification": "Justification for the score"},
-            "criteria_4": {"score": 45, "justification": "Justification for the score"},
-            "criteria_5": {"score": 30, "justification": "Justification for the score"},
-            "criteria_6": {"score": 30, "justification": "Justification for the score"},
+"assessment_data": {
+            "rag_implementation": {"score": 1, "justification": "RAG Implementation score"},
+            "fine_tuning": {"score": 1, "justification": "Fine Tuning score"},
+            "multimodal_ai": {"score": 1, "justification": "MultiModal AI score"},
+            "python_and_libraries": {"score": 1, "justification": "Python & Libraries score"},
+            "ai_modeling": {"score": 1, "justification": "AI Modeling score"},
+            "analyzing_user_data": {"score": 1, "justification": "Analyzing User Data score"},
+            "problem_solving": {"score": 1, "justification": "Problem Solving score"},
+            "teamwork": {"score": 1, "justification": "Teamwork score"},
+            "motivation": {"score": 1, "justification": "Motivation score"},
         },
-    },
-      "Resume2.pdf": {
-        "name": "Resume2.pdf",
-        "overall_score": 40,
-        "summary": "Document summary here",
-        "feedback": "Our feedback here",
-        "assessment_data": {
-            "criteria_1": {"score": 35, "justification": "Justification for the score"},
-            "criteria_2": {"score": 45, "justification": "Justification for the score"},
-            "criteria_3": {"score": 35, "justification": "Justification for the score"},
-            "criteria_4": {"score": 45, "justification": "Justification for the score"},
-            "criteria_5": {"score": 30, "justification": "Justification for the score"},
-            "criteria_6": {"score": 30, "justification": "Justification for the score"},
+        "assessment_criteria": {
+            "criteria_1": {"score": 80, "justification": "Justification for the score"},
+            "criteria_2": {"score": 90, "justification": "Justification for the score"},
+            "criteria_3": {"score": 85, "justification": "Justification for the score"},
+            "criteria_4": {"score": 90, "justification": "Justification for the score"},
+            "criteria_5": {"score": 80, "justification": "Justification for the score"},
+            "criteria_6": {"score": 85, "justification": "Justification for the score"},
         },
-    },
-      "Resume3.pdf": {
-        "name": "Resume3.pdf",
-        "overall_score": 40,
-        "summary": "Document summary here",
-        "feedback": "Our feedback here",
-        "assessment_data": {
-            "criteria_1": {"score": 35, "justification": "Justification for the score"},
-            "criteria_2": {"score": 45, "justification": "Justification for the score"},
-            "criteria_3": {"score": 35, "justification": "Justification for the score"},
-            "criteria_4": {"score": 45, "justification": "Justification for the score"},
-            "criteria_5": {"score": 30, "justification": "Justification for the score"},
-            "criteria_6": {"score": 30, "justification": "Justification for the score"},
-        },
-    },
-      "Resume4.pdf": {
-        "name": "Resume4.pdf",
-        "overall_score": 40,
-        "summary": "Document summary here",
-        "feedback": "Our feedback here",
-        "assessment_data": {
-            "criteria_1": {"score": 35, "justification": "Justification for the score"},
-            "criteria_2": {"score": 45, "justification": "Justification for the score"},
-            "criteria_3": {"score": 35, "justification": "Justification for the score"},
-            "criteria_4": {"score": 45, "justification": "Justification for the score"},
-            "criteria_5": {"score": 30, "justification": "Justification for the score"},
-            "criteria_6": {"score": 30, "justification": "Justification for the score"},
-        },
-    },
-      "Resume5.pdf": {
-        "name": "Resume5.pdf",
-        "overall_score": 40,
-        "summary": "Document summary here",
-        "feedback": "Our feedback here",
-        "assessment_data": {
-            "criteria_1": {"score": 35, "justification": "Justification for the score"},
-            "criteria_2": {"score": 45, "justification": "Justification for the score"},
-            "criteria_3": {"score": 35, "justification": "Justification for the score"},
-            "criteria_4": {"score": 45, "justification": "Justification for the score"},
-            "criteria_5": {"score": 30, "justification": "Justification for the score"},
-            "criteria_6": {"score": 30, "justification": "Justification for the score"},
-        },
-    },
-      "Resume6.pdf": {
-        "name": "Resume6.pdf",
-        "overall_score": 40,
-        "summary": "Document summary here",
-        "feedback": "Our feedback here",
-        "assessment_data": {
-            "criteria_1": {"score": 35, "justification": "Justification for the score"},
-            "criteria_2": {"score": 45, "justification": "Justification for the score"},
-            "criteria_3": {"score": 35, "justification": "Justification for the score"},
-            "criteria_4": {"score": 45, "justification": "Justification for the score"},
-            "criteria_5": {"score": 30, "justification": "Justification for the score"},
-            "criteria_6": {"score": 30, "justification": "Justification for the score"},
-        },
-    },
-      "Resume7.pdf": {
-        "name": "Resume7.pdf",
-        "overall_score": 40,
-        "summary": "Document summary here",
-        "feedback": "Our feedback here",
-        "assessment_data": {
-            "criteria_1": {"score": 35, "justification": "Justification for the score"},
-            "criteria_2": {"score": 45, "justification": "Justification for the score"},
-            "criteria_3": {"score": 35, "justification": "Justification for the score"},
-            "criteria_4": {"score": 45, "justification": "Justification for the score"},
-            "criteria_5": {"score": 30, "justification": "Justification for the score"},
-            "criteria_6": {"score": 30, "justification": "Justification for the score"},
-        },
-    },
-      "Resume8.pdf": {
-        "name": "Resume8.pdf",
-        "overall_score": 40,
-        "summary": "Document summary here",
-        "feedback": "Our feedback here",
-        "assessment_data": {
-            "criteria_1": {"score": 35, "justification": "Justification for the score"},
-            "criteria_2": {"score": 45, "justification": "Justification for the score"},
-            "criteria_3": {"score": 35, "justification": "Justification for the score"},
-            "criteria_4": {"score": 45, "justification": "Justification for the score"},
-            "criteria_5": {"score": 30, "justification": "Justification for the score"},
-            "criteria_6": {"score": 30, "justification": "Justification for the score"},
-        },
-    },
-      "Resume9.pdf": {
-        "name": "Resume9.pdf",
-        "overall_score": 40,
-        "summary": "Document summary here",
-        "feedback": "Our feedback here",
-        "assessment_data": {
-            "criteria_1": {"score": 35, "justification": "Justification for the score"},
-            "criteria_2": {"score": 45, "justification": "Justification for the score"},
-            "criteria_3": {"score": 35, "justification": "Justification for the score"},
-            "criteria_4": {"score": 45, "justification": "Justification for the score"},
-            "criteria_5": {"score": 30, "justification": "Justification for the score"},
-            "criteria_6": {"score": 30, "justification": "Justification for the score"},
-        },
-    },
-    # Add more documents as needed
-}
+        "submission_time": "4:01PM 6/15/23",
+        "overall_rating": "Good"
+    }
+]
 
-@app.get("/documents")
-def list_documents():
-    documents = [f for f in os.listdir(DOCUMENTS_FOLDER) if f.endswith(".pdf")]
-    return {"documents": documents}
+# Initialize the database
+def init_db():
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS documents (
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            submission_time TEXT,
+            overall_score REAL,
+            overall_rating TEXT
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS assessments (
+            document_id INTEGER,
+            criteria TEXT,
+            score INTEGER,
+            justification TEXT,
+            FOREIGN KEY(document_id) REFERENCES documents(id)
+        )
+    ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS assessment_criteria (
+            document_id INTEGER,
+            criteria TEXT,
+            score INTEGER,
+            justification TEXT,
+            FOREIGN KEY(document_id) REFERENCES documents(id)
+        )
+    ''')
+    conn.commit()
+    conn.close()
 
-@app.get("/documents/{document_name}")
-def get_document_metadata(document_name: str):
-    if document_name in document_metadata:
-        return document_metadata[document_name]
-    else:
-        return {"error": "Document not found"}
+init_db()
+
 
 @app.get("/documents/view/{document_name}")
 def view_document(document_name: str):
@@ -171,6 +122,119 @@ def view_document(document_name: str):
         return FileResponse(document_path, media_type="application/pdf")
     else:
         return {"error": "Document not found"}
+
+@app.post("/upload")
+async def upload_file(file: UploadFile = File(...)):
+    # Save file to local storage
+    file_location = os.path.join(DOCUMENTS_FOLDER, file.filename)
+    with open(file_location, "wb+") as file_object:
+        file_object.write(file.file.read())
+    
+    # Generate random assessment data
+    submission_time = "5:01PM 5/18/23"  # Replace with actual timestamp
+    overall_score = random.randint(0, 100)
+    overall_rating = random.choice(["Needs Improvement", "Satisfactory", "Good", "Excellent"])
+    assessment_data = {
+        "rag_implementation": {"score": random.randint(0, 100), "justification": "Random justification"},
+        "fine_tuning": {"score": random.randint(0, 100), "justification": "Random justification"},
+        "multimodal_ai": {"score": random.randint(0, 100), "justification": "Random justification"},
+        "python_and_libraries": {"score": random.randint(0, 100), "justification": "Random justification"},
+        "ai_modeling": {"score": random.randint(0, 100), "justification": "Random justification"},
+        "analyzing_user_data": {"score": random.randint(0, 100), "justification": "Random justification"},
+        "problem_solving": {"score": random.randint(0, 100), "justification": "Random justification"},
+        "teamwork": {"score": random.randint(0, 100), "justification": "Random justification"},
+        "motivation": {"score": random.randint(0, 100), "justification": "Random justification"},
+    }
+    assessment_criteria = {
+        "criteria_1": {"score": random.randint(0, 100), "justification": "Justification for the score"},
+        "criteria_2": {"score": random.randint(0, 100), "justification": "Justification for the score"},
+        "criteria_3": {"score": random.randint(0, 100), "justification": "Justification for the score"},
+        "criteria_4": {"score": random.randint(0, 100), "justification": "Justification for the score"},
+        "criteria_5": {"score": random.randint(0, 100), "justification": "Justification for the score"},
+        "criteria_6": {"score": random.randint(0, 100), "justification": "Justification for the score"},
+    }
+    
+    # Store metadata in database
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute('''
+        INSERT INTO documents (name, submission_time, overall_score, overall_rating)
+        VALUES (?, ?, ?, ?)
+    ''', (file.filename, submission_time, overall_score, overall_rating))
+    document_id = cursor.lastrowid
+    for criteria, data in assessment_data.items():
+        cursor.execute('''
+            INSERT INTO assessments (document_id, criteria, score, justification)
+            VALUES (?, ?, ?, ?)
+        ''', (document_id, criteria, data["score"], data["justification"]))
+    for criteria, data in assessment_criteria.items():
+        cursor.execute('''
+            INSERT INTO assessment_criteria (document_id, criteria, score, justification)
+            VALUES (?, ?, ?, ?)
+        ''', (document_id, criteria, data["score"], data["justification"]))
+    conn.commit()
+    conn.close()
+    
+    return {"message": "File uploaded successfully"}
+
+@app.get("/all-documents")
+def get_all_documents():
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM documents')
+    documents = cursor.fetchall()
+    
+    all_documents = []
+    for doc in documents:
+        document_id, name, submission_time, overall_score, overall_rating = doc
+        cursor.execute('SELECT criteria, score, justification FROM assessments WHERE document_id=?', (document_id,))
+        assessments = cursor.fetchall()
+        assessment_data = {criteria: {"score": score, "justification": justification} for criteria, score, justification in assessments}
+        cursor.execute('SELECT criteria, score, justification FROM assessment_criteria WHERE document_id=?', (document_id,))
+        assessment_criteria = cursor.fetchall()
+        assessment_criteria_data = {criteria: {"score": score, "justification": justification} for criteria, score, justification in assessment_criteria}
+        all_documents.append({
+            "name": name,
+            "submission_time": submission_time,
+            "overall_score": overall_score,
+            "overall_rating": overall_rating,
+            "assessment_data": assessment_data,
+            "assessment_criteria": assessment_criteria_data        
+        })
+    conn.close()
+    return all_documents
+
+@app.get("/documents/{document_name}")
+def get_document_metadata(document_name: str):
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM documents WHERE name=?', (document_name,))
+    doc = cursor.fetchone()
+    if doc:
+        document_id, name, submission_time, overall_score, overall_rating = doc
+        cursor.execute('SELECT criteria, score, justification FROM assessments WHERE document_id=?', (document_id,))
+        assessments = cursor.fetchall()
+        assessment_data = {criteria: {"score": score, "justification": justification} for criteria, score, justification in assessments}
+        
+        cursor.execute('SELECT criteria, score, justification FROM assessment_criteria WHERE document_id=?', (document_id,))
+        assessment_criteria = cursor.fetchall()
+        # Print fetched data for verification
+        print(f'Fetched from assessment_criteria: {assessment_criteria}')
+        
+        assessment_criteria_data = {criteria: {"score": score, "justification": justification} for criteria, score, justification in assessment_criteria}
+        
+        document_metadata = {
+            "name": name,
+            "submission_time": submission_time,
+            "overall_score": overall_score,
+            "overall_rating": overall_rating,
+            "assessment_data": assessment_data,
+            "assessment_criteria": assessment_criteria_data        
+        }
+        conn.close()
+        return document_metadata
+    conn.close()
+    return {}
 
 if __name__ == "__main__":
     import uvicorn
