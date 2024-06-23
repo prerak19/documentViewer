@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { FaFilter } from 'react-icons/fa';
 import { TbArrowsSort } from 'react-icons/tb';
 import { HiOutlineSearch } from 'react-icons/hi';
+import NavBar from '@/components/NavBar';
 
 export default function Dashboard() {
   const [documents, setDocuments] = useState([]);
@@ -21,6 +22,7 @@ export default function Dashboard() {
   };
   return (
     <>
+      <NavBar />
       <div className="flex flex-wrap justify-center lg:justify-start space-y-4 lg:space-y-0 lg:space-x-4">
         <div className="flex-initial content-center w-44 from-purple-500 to-blue-500 text-white bg-gradient-to-r p-4 rounded-lg shadow-md text-center">
           <p className="text-lg">Total</p>
@@ -77,98 +79,97 @@ export default function Dashboard() {
           <p className="text-3xl font-bold text-blue-500">20</p>
         </div>
       </div>
-
-        <div className="flex flex-col sm:flex-row justify-between items-center mt-8 mb-4">
-          <div className="bg-white rounded-md flex flex-wrap justify-center sm:justify-start space-x-2 mb-4 sm:mb-0">
-            <button className="bg-blue-500 text-white py-2 px-4 rounded-md">All</button>
-            <button className="py-2 px-4">Top 20</button>
-            <button className="py-2 px-4">Excellent</button>
-            <button className="py-2 px-4">Good</button>
-            <button className="py-2 px-4">Satisfactory</button>
-            <button className="py-2 px-4">Needs Improvement</button>
-          </div>
-          <div className="flex items-center space-x-2">
-            <button className="flex items-center space-x-2 text-blue-500 py-2 px-4 bg-white rounded-lg shadow-md">
-              <FaFilter className="w-4 h-4" />
-              <span className="text-gray-700">Filter</span>
-            </button>
-            <button className="flex items-center text-blue-500 py-2 px-4 bg-white rounded-lg shadow-md">
-              <TbArrowsSort className="w-5 h-5" />
-            </button>
-            <div className="flex items-center space-x-2 py-2 px-4 bg-white rounded-lg shadow-md border w-full max-w-sm">
-              <HiOutlineSearch className="w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search"
-                className="w-full border-none focus:outline-none"
-              />
-            </div>
+      <div className="flex flex-col sm:flex-row justify-between items-center mt-8 mb-4">
+        <div className="bg-white rounded-md flex flex-wrap justify-center sm:justify-start space-x-2 mb-4 sm:mb-0">
+          <button className="bg-blue-500 text-white py-2 px-4 rounded-md">All</button>
+          <button className="py-2 px-4">Top 20</button>
+          <button className="py-2 px-4">Excellent</button>
+          <button className="py-2 px-4">Good</button>
+          <button className="py-2 px-4">Satisfactory</button>
+          <button className="py-2 px-4">Needs Improvement</button>
+        </div>
+        <div className="flex items-center space-x-2">
+          <button className="flex items-center space-x-2 text-blue-500 py-2 px-4 bg-white rounded-lg shadow-md">
+            <FaFilter className="w-4 h-4" />
+            <span className="text-gray-700">Filter</span>
+          </button>
+          <button className="flex items-center text-blue-500 py-2 px-4 bg-white rounded-lg shadow-md">
+            <TbArrowsSort className="w-5 h-5" />
+          </button>
+          <div className="flex items-center space-x-2 py-2 px-4 bg-white rounded-lg shadow-md border w-full max-w-sm">
+            <HiOutlineSearch className="w-5 h-5 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-full border-none focus:outline-none"
+            />
           </div>
         </div>
-        <div className="overflow-x-auto mt-6">
-          <table className="min-w-full text-left text-xs font-medium text-gray-500 uppercase">
-            <thead>
-              <tr>
-                <th className="px-2 py-3">Name</th>
-                <th className="px-2 py-3">Submission Time</th>
-                <th className="px-2 py-3">Overall Score</th>
-                <th className="px-2 py-3">Overall Rating</th>
-                <th className="px-2 py-3">RAG Implementation</th>
-                <th className="px-2 py-3">Fine Tuning</th>
-                <th className="px-2 py-3">MultiModal AI</th>
-                <th className="px-2 py-3">Python & Libraries</th>
-                <th className="px-2 py-3">AI Modeling</th>
-                <th className="px-2 py-3">Analyzing User Data</th>
-                <th className="px-2 py-3">Problem Solving</th>
-                <th className="px-2 py-3">Teamwork</th>
-                <th className="px-2 py-3">Motivation</th>
-                <th className="py-3">Add to shortlist</th>
+      </div>
+      <div className="overflow-x-auto mt-6">
+        <table className="min-w-full text-left text-xs font-medium text-gray-500 uppercase">
+          <thead>
+            <tr>
+              <th className="px-2 py-3">Name</th>
+              <th className="px-2 py-3">Submission Time</th>
+              <th className="px-2 py-3">Overall Score</th>
+              <th className="px-2 py-3">Overall Rating</th>
+              <th className="px-2 py-3">RAG Implementation</th>
+              <th className="px-2 py-3">Fine Tuning</th>
+              <th className="px-2 py-3">MultiModal AI</th>
+              <th className="px-2 py-3">Python & Libraries</th>
+              <th className="px-2 py-3">AI Modeling</th>
+              <th className="px-2 py-3">Analyzing User Data</th>
+              <th className="px-2 py-3">Problem Solving</th>
+              <th className="px-2 py-3">Teamwork</th>
+              <th className="px-2 py-3">Motivation</th>
+              <th className="py-3">Add to shortlist</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white">
+            {documents.map((doc, index) => (
+              <tr key={index}>
+                <td className="px-2 py-3">
+                  <Link href={`/projectView/${doc.name}`} className="text-indigo-600 hover:text-indigo-900">
+                    {doc.name}</Link></td>
+                <td className="px-2 py-3">{doc.submission_time}</td>
+                <td className="px-2 py-3">{doc.overall_score}</td>
+                <td className="px-2 py-3">{doc.overall_rating}</td>
+                <td className="px-2 py-3">
+                  <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.rag_implementation_score)}`}></span>
+                </td>
+                <td className="px-2 py-3">
+                  <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.fine_tuning_score)}`}></span>
+                </td>
+                <td className="px-2 py-3">
+                  <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.multimodal_ai_score)}`}></span>
+                </td>
+                <td className="px-2 py-3">
+                  <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.python_and_libraries_score)}`}></span>
+                </td>
+                <td className="px-2 py-3">
+                  <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.ai_modeling_score)}`}></span>
+                </td>
+                <td className="px-2 py-3">
+                  <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.analyzing_user_data_score)}`}></span>
+                </td>
+                <td className="px-2 py-3">
+                  <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.problem_solving_score)}`}></span>
+                </td>
+                <td className="px-2 py-3">
+                  <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.teamwork_score)}`}></span>
+                </td>
+                <td className="px-2 py-3">
+                  <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.motivation_score)}`}></span>
+                </td>
+                <td className="py-3">
+                  <input type="checkbox" className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
+                </td>
               </tr>
-            </thead>
-            <tbody className="bg-white">
-              {documents.map((doc, index) => (
-                <tr key={index}>
-                  <td className="px-2 py-3">
-                    <Link href={`/projectView/${doc.name}`} className="text-indigo-600 hover:text-indigo-900">
-                      {doc.name}</Link></td>
-                  <td className="px-2 py-3">{doc.submission_time}</td>
-                  <td className="px-2 py-3">{doc.overall_score}</td>
-                  <td className="px-2 py-3">{doc.overall_rating}</td>
-                  <td className="px-2 py-3">
-                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.rag_implementation_score)}`}></span>
-                  </td>
-                  <td className="px-2 py-3">
-                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.fine_tuning_score)}`}></span>
-                  </td>
-                  <td className="px-2 py-3">
-                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.multimodal_ai_score)}`}></span>
-                  </td>
-                  <td className="px-2 py-3">
-                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.python_and_libraries_score)}`}></span>
-                  </td>
-                  <td className="px-2 py-3">
-                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.ai_modeling_score)}`}></span>
-                  </td>
-                  <td className="px-2 py-3">
-                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.analyzing_user_data_score)}`}></span>
-                  </td>
-                  <td className="px-2 py-3">
-                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.problem_solving_score)}`}></span>
-                  </td>
-                  <td className="px-2 py-3">
-                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.teamwork_score)}`}></span>
-                  </td>
-                  <td className="px-2 py-3">
-                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.motivation_score)}`}></span>
-                  </td>
-                  <td className="py-3">
-                    <input type="checkbox" className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
+      </div>
       {/* </div> */}
     </>
   )

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FaRegCopy } from 'react-icons/fa';
+import Link from 'next/link';
 
 export default function DocumentViewer({ documentMetadata: initialDocumentMetadata }) {
 	const [documents, setDocuments] = useState([]);
@@ -38,10 +39,12 @@ export default function DocumentViewer({ documentMetadata: initialDocumentMetada
 
 	return (
 		<>
-			<div className="bg-gray-50 grid grid-cols-1 lg:grid-cols-10 rounded-lg shadow-md">
+			<div className="grid grid-cols-1 lg:grid-cols-10">
 				<div className="col-span-10 lg:col-span-7 ml-2 mr-4">
 					<div className="text-gray-700 mt-5 mb-4 flex items-center space-x-2">
-						<span>Hiring UX Designer {`>`}</span>
+						<Link href="/">
+							Hiring UX Designer {`>`}
+						</Link>
 						<div className="relative inline-block">
 							<button
 								type="button"

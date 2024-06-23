@@ -7,7 +7,7 @@ export default function NavBar() {
   const routes = [
     { path: '/', label: 'Dashboard' },
     { path: '/submissions', label: 'Submissions' },
-    { path: '/projectView', label: 'Project View' },
+    { path: '/settings', label: 'Settings' },
   ];
 
   const getLinkClass = (path) => {
