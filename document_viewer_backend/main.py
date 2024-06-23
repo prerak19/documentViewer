@@ -2,7 +2,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import os
-import random
+import random, string
 import sqlite3
 from pydantic import BaseModel
 from typing import List, Dict
@@ -88,7 +88,9 @@ def init_db():
             name TEXT,
             submission_time TEXT,
             overall_score REAL,
-            overall_rating TEXT
+            overall_rating TEXT,
+            summary TEXT,
+            feedback TEXT
         )
     ''')
     cursor.execute('''
@@ -96,7 +98,6 @@ def init_db():
             document_id INTEGER,
             criteria TEXT,
             score INTEGER,
-            justification TEXT,
             FOREIGN KEY(document_id) REFERENCES documents(id)
         )
     ''')
@@ -134,16 +135,18 @@ async def upload_file(file: UploadFile = File(...)):
     submission_time = "5:01PM 5/18/23"  # Replace with actual timestamp
     overall_score = random.randint(0, 100)
     overall_rating = random.choice(["Needs Improvement", "Satisfactory", "Good", "Excellent"])
+    summary = ' '.join(''.join(random.choices(string.ascii_lowercase, k=random.randint(3, 10))) for _ in range(30)).capitalize() + '.'
+    feedback = ' '.join(''.join(random.choices(string.ascii_lowercase, k=random.randint(3, 10))) for _ in range(30)).capitalize() + '.'
     assessment_data = {
-        "rag_implementation": {"score": random.randint(0, 100), "justification": "Random justification"},
-        "fine_tuning": {"score": random.randint(0, 100), "justification": "Random justification"},
-        "multimodal_ai": {"score": random.randint(0, 100), "justification": "Random justification"},
-        "python_and_libraries": {"score": random.randint(0, 100), "justification": "Random justification"},
-        "ai_modeling": {"score": random.randint(0, 100), "justification": "Random justification"},
-        "analyzing_user_data": {"score": random.randint(0, 100), "justification": "Random justification"},
-        "problem_solving": {"score": random.randint(0, 100), "justification": "Random justification"},
-        "teamwork": {"score": random.randint(0, 100), "justification": "Random justification"},
-        "motivation": {"score": random.randint(0, 100), "justification": "Random justification"},
+        "rag_implementation_score": random.randint(0, 100),
+        "fine_tuning_score": random.randint(0, 100),
+        "multimodal_ai_score": random.randint(0, 100),
+        "python_and_libraries_score": random.randint(0, 100),
+        "ai_modeling_score": random.randint(0, 100),
+        "analyzing_user_data_score": random.randint(0, 100),
+        "problem_solving_score": random.randint(0, 100),
+        "teamwork_score": random.randint(0, 100),
+        "motivation_score": random.randint(0, 100),
     }
     assessment_criteria = {
         "criteria_1": {"score": random.randint(0, 100), "justification": "Justification for the score"},
@@ -158,15 +161,15 @@ async def upload_file(file: UploadFile = File(...)):
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
     cursor.execute('''
-        INSERT INTO documents (name, submission_time, overall_score, overall_rating)
-        VALUES (?, ?, ?, ?)
-    ''', (file.filename, submission_time, overall_score, overall_rating))
+        INSERT INTO documents (name, submission_time, overall_score, overall_rating, summary, feedback)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ''', (file.filename, submission_time, overall_score, overall_rating, summary, feedback))
     document_id = cursor.lastrowid
-    for criteria, data in assessment_data.items():
+    for criteria, score in assessment_data.items():
         cursor.execute('''
-            INSERT INTO assessments (document_id, criteria, score, justification)
-            VALUES (?, ?, ?, ?)
-        ''', (document_id, criteria, data["score"], data["justification"]))
+            INSERT INTO assessments (document_id, criteria, score)
+            VALUES (?, ?, ?)
+        ''', (document_id, criteria, score))
     for criteria, data in assessment_criteria.items():
         cursor.execute('''
             INSERT INTO assessment_criteria (document_id, criteria, score, justification)
@@ -186,10 +189,10 @@ def get_all_documents():
     
     all_documents = []
     for doc in documents:
-        document_id, name, submission_time, overall_score, overall_rating = doc
-        cursor.execute('SELECT criteria, score, justification FROM assessments WHERE document_id=?', (document_id,))
+        document_id, name, submission_time, overall_score, overall_rating, summary, feedback = doc
+        cursor.execute('SELECT criteria, score FROM assessments WHERE document_id=?', (document_id,))
         assessments = cursor.fetchall()
-        assessment_data = {criteria: {"score": score, "justification": justification} for criteria, score, justification in assessments}
+        assessment_data = {criteria: score for criteria, score in assessments}
         cursor.execute('SELECT criteria, score, justification FROM assessment_criteria WHERE document_id=?', (document_id,))
         assessment_criteria = cursor.fetchall()
         assessment_criteria_data = {criteria: {"score": score, "justification": justification} for criteria, score, justification in assessment_criteria}
@@ -198,6 +201,8 @@ def get_all_documents():
             "submission_time": submission_time,
             "overall_score": overall_score,
             "overall_rating": overall_rating,
+            "summary": summary,
+            "feedback": feedback,
             "assessment_data": assessment_data,
             "assessment_criteria": assessment_criteria_data        
         })
@@ -211,10 +216,10 @@ def get_document_metadata(document_name: str):
     cursor.execute('SELECT * FROM documents WHERE name=?', (document_name,))
     doc = cursor.fetchone()
     if doc:
-        document_id, name, submission_time, overall_score, overall_rating = doc
-        cursor.execute('SELECT criteria, score, justification FROM assessments WHERE document_id=?', (document_id,))
+        document_id, name, submission_time, overall_score, overall_rating, summary, feedback = doc
+        cursor.execute('SELECT criteria, score FROM assessments WHERE document_id=?', (document_id,))
         assessments = cursor.fetchall()
-        assessment_data = {criteria: {"score": score, "justification": justification} for criteria, score, justification in assessments}
+        assessment_data = {criteria: score for criteria, score in assessments}
         
         cursor.execute('SELECT criteria, score, justification FROM assessment_criteria WHERE document_id=?', (document_id,))
         assessment_criteria = cursor.fetchall()
@@ -228,6 +233,8 @@ def get_document_metadata(document_name: str):
             "submission_time": submission_time,
             "overall_score": overall_score,
             "overall_rating": overall_rating,
+            "summary": summary,
+            "feedback": feedback,
             "assessment_data": assessment_data,
             "assessment_criteria": assessment_criteria_data        
         }
