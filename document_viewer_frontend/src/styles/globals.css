@@ -9,3 +9,7 @@ select {
 iframe {
   @apply border rounded-md;
 }
+
+.pdf-viewer-container{
+  height: 650px;
+}
