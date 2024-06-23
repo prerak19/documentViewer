@@ -9,7 +9,13 @@ export default function Dashboard() {
       .then((res) => res.json())
       .then((data) => setDocuments(data));
   }, []);
-console.log(documents);
+
+  const getStatusColor = (score) => {
+    if (score >= 75) return 'bg-green-500';
+    if (score >= 50) return 'bg-blue-500';
+    if (score >= 25) return 'bg-orange-500';
+    return 'bg-red-500';
+  };
   return (
     <>
       <div className="flex flex-row flex-wrap gap-y-9 ">
@@ -86,31 +92,31 @@ console.log(documents);
                   <td className="px-6 py-4 ">{doc.overall_score}</td>
                   <td className="px-6 py-4 ">{doc.overall_rating}</td>
                   <td className="px-6 py-4 ">
-                    <span className="bg-blue-500 w-4 h-4 rounded-full inline-block"></span>
+                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.rag_implementation_score)}`}></span>
                   </td>
                   <td className="px-6 py-4 ">
-                    <span className="bg-green-500 w-4 h-4 rounded-full inline-block"></span>
+                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.fine_tuning_score)}`}></span>
                   </td>
                   <td className="px-6 py-4 ">
-                    <span className="bg-orange-500 w-4 h-4 rounded-full inline-block"></span>
+                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.multimodal_ai_score)}`}></span>
                   </td>
                   <td className="px-6 py-4 ">
-                    <span className="bg-blue-500 w-4 h-4 rounded-full inline-block"></span>
+                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.python_and_libraries_score)}`}></span>
                   </td>
                   <td className="px-6 py-4 ">
-                    <span className="bg-green-500 w-4 h-4 rounded-full inline-block"></span>
+                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.ai_modeling_score)}`}></span>
                   </td>
                   <td className="px-6 py-4 ">
-                    <span className="bg-red-500 w-4 h-4 rounded-full inline-block"></span>
+                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.analyzing_user_data_score)}`}></span>
                   </td>
                   <td className="px-6 py-4 ">
-                    <span className="bg-blue-500 w-4 h-4 rounded-full inline-block"></span>
+                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.problem_solving_score)}`}></span>
                   </td>
                   <td className="px-6 py-4 ">
-                    <span className="bg-green-500 w-4 h-4 rounded-full inline-block"></span>
+                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.teamwork_score)}`}></span>
                   </td>
                   <td className="px-6 py-4 ">
-                    <span className="bg-blue-500 w-4 h-4 rounded-full inline-block"></span>
+                    <span className={`w-4 h-4 rounded-full inline-block ${getStatusColor(doc.assessment_data.motivation_score)}`}></span>
                   </td>
                   <td className="px-6 py-4 ">
                     <input type="checkbox" className="form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
