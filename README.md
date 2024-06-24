@@ -33,11 +33,13 @@ This is a Document Viewer web application that allows users to select and view P
    cd document_viewer_backend
 
 2. **Install FastAPI and Uvicorn:**
+   ```bash
     pip install fastapi uvicorn
     or
     pip3 install fastapi uvicorn
 
 3. **Start the FastAPI Backend:**
+   ```bash
     uvicorn main:app --reload
     or
     python3 -m uvicorn main:app --reload  
@@ -45,12 +47,14 @@ This is a Document Viewer web application that allows users to select and view P
 4. Server running on [http://127.0.0.1:8000/all-documents] with your browser to see the result.      
 
 ### Frontend Setup
-     cd document_viewer_frontend
+    cd document_viewer_frontend
 
 1. **Install the dependencies**
+   ```bash
    npm install
 
 2. **Start the NextJS Frontend**
+   ```bash
     npm run dev
 
 3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
