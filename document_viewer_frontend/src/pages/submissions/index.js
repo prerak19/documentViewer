@@ -73,16 +73,18 @@ export default function Submissions() {
       <div className="bg-white p-4 sm:p-6 rounded-lg shadow-md mb-8">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-4">
           <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 w-full sm:w-auto">
-            <label className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 cursor-pointer flex items-center justify-center sm:justify-start">
-              <FaUpload className="mr-2" />
-              Upload More Data
-              <input type="file" onChange={handleFileChange} className="hidden" />
-            </label>
-            <button className="bg-white py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start">
-              <FaSearch />
-            </button>
+            <div className="flex w-full space-x-2">
+              <label className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 cursor-pointer flex items-center justify-center sm:justify-start w-full sm:w-auto">
+                <FaUpload className="mr-2" />
+                Upload More Data
+                <input type="file" onChange={handleFileChange} className="hidden" />
+              </label>
+              <button className="bg-white py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start w-full sm:w-auto">
+                <FaSearch />
+              </button>
+            </div>
           </div>
-          <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4 mt-4 sm:mt-0">
+          <div className="flex flex-wrap justify-center sm:justify-start mt-4 sm:mt-0 space-x-2 sm:space-x-4">
             <button
               className={`bg-white py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start ${view === 'grid' ? 'bg-blue-100' : ''}`}
               onClick={() => setView('grid')}
