@@ -4,7 +4,7 @@ import "@/styles/globals.css";
 export default function App({ Component, pageProps }) {
   return <>
     <MenuBar />
-    <div className="max-w-7xl bg-gray-50 mx-auto py-6 sm:px-6 lg:px-8 mt-4 rounded-md">
+    <div className="max-w-7xl mx-auto mt-4">
       <Component {...pageProps} />
     </div>
   </>

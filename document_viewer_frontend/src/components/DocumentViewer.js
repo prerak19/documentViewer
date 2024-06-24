@@ -40,9 +40,9 @@ export default function DocumentViewer({ documentMetadata: initialDocumentMetada
 
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-10">
+      <div className="bg-gray-50 shadow-md rounded-md p-8 grid grid-cols-1 lg:grid-cols-10">
         <div className="col-span-10 lg:col-span-7 ml-2 mr-4">
-          <div className="text-gray-700 mt-5 mb-4 flex items-center space-x-2">
+          <div className="text-gray-700 mb-4 flex items-center space-x-2">
             <Link href="/">
               Hiring UX Designer {`>`}
             </Link>
@@ -95,10 +95,10 @@ export default function DocumentViewer({ documentMetadata: initialDocumentMetada
           )}
         </div>
         {documentMetadata && (
-          <div className="col-span-10 lg:col-span-3 mt-4 mr-4 ml-2">
+          <div className="col-span-10 lg:col-span-3 mr-4 ml-2">
             <div className="bg-white p-4 rounded-lg shadow-md mb-4">
               <h3 className="font-bold">Document Score</h3>
-              <div className="text-center items-center mt-4">
+              <div className="text-center items-center mt-2">
                 <p className="text-5xl font-bold text-red-500">{documentMetadata.overall_score}</p>
                 <p className="text-lg text-gray-500 ml-2">of 100</p>
               </div>
@@ -118,7 +118,7 @@ export default function DocumentViewer({ documentMetadata: initialDocumentMetada
               <h3 className="font-bold mt-4 flex items-center justify-between">Summary:
                 <FaRegCopy className="w-5 h-5 ml-2 cursor-pointer" />
               </h3>
-              <div className="overflow-y-auto max-h-20">
+              <div className="min-h-20 overflow-y-auto max-h-20">
                 <div className="flex items-center mt-2">
                   <p className="text-gray-600">{documentMetadata.summary}</p>
                 </div>
@@ -126,7 +126,7 @@ export default function DocumentViewer({ documentMetadata: initialDocumentMetada
               <h3 className="font-bold mt-4 flex items-center justify-between">Feedback:
                 <FaRegCopy className="w-5 h-5 ml-2 cursor-pointer" />
               </h3>
-              <div className="overflow-y-auto max-h-20">
+              <div className="min-h-20 overflow-y-auto max-h-20">
                 <div className="flex items-center mt-2">
                   <p className="text-gray-600">{documentMetadata.feedback}</p>
                 </div>
@@ -158,7 +158,7 @@ export default function DocumentViewer({ documentMetadata: initialDocumentMetada
         )}
       </div>
       {documentMetadata && (
-        <div className="bg-gray-50 p-6 rounded-lg shadow-md mt-4">
+        <div className="bg-gray-50 p-8 rounded-md shadow-md my-4">
           <div className="flex justify-center">
             {criteriaTabs.map((tab, index) => (
               <button

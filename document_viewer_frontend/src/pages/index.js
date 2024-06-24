@@ -21,7 +21,7 @@ export default function Dashboard() {
     return 'bg-red-500';
   };
   return (
-    <>
+    <div className='bg-gray-50 py-6 sm:px-6 lg:px-8 rounded-md'>
       <NavBar />
       <div className="flex flex-wrap justify-center lg:justify-start space-y-4 lg:space-y-0 lg:space-x-4">
         <div className="flex-initial content-center w-44 from-purple-500 to-blue-500 text-white bg-gradient-to-r p-4 rounded-lg shadow-md text-center">
@@ -80,7 +80,7 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="flex flex-col sm:flex-row justify-between items-center mt-8 mb-4">
-        <div className="bg-white rounded-md flex flex-wrap justify-center sm:justify-start space-x-2 mb-4 sm:mb-0">
+        <div className="bg-white shadow-md rounded-md flex flex-wrap justify-center sm:justify-start space-x-2 mb-4 sm:mb-0">
           <button className="bg-blue-500 text-white py-2 px-4 rounded-md">All</button>
           <button className="py-2 px-4">Top 20</button>
           <button className="py-2 px-4">Excellent</button>
@@ -170,7 +170,6 @@ export default function Dashboard() {
           </tbody>
         </table>
       </div>
-      {/* </div> */}
-    </>
+    </div>
   )
 }
