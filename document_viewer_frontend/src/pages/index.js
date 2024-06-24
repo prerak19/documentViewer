@@ -107,7 +107,7 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="overflow-x-auto mt-6">
-        <table className="min-w-full text-left text-xs font-medium text-gray-500 uppercase">
+        <table className="min-w-full text-left text-xs font-medium text-gray-500">
           <thead>
             <tr>
               <th className="px-2 py-3">Name</th>

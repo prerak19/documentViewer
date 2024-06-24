@@ -131,29 +131,26 @@ export default function Submissions() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Document Name</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Document Name</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Date</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Status</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500">Score</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {documents.map((doc, index) => (
-                  <tr key={index} onClick={() => router.push(`/projectView/${doc.name}`)} className="cursor-pointer">
-                    <td className="px-6 py-4 whitespace-nowrap flex items-center">
+                  <tr key={index}>
+                    <td className="px-6 py-4 flex items-center">
                       <BiSolidFilePdf className="w-6 h-6 mr-2" />
-                      <div>
-                        <div className="text-sm font-medium text-gray-900">{doc.name}</div>
-                        <div className="text-sm text-gray-500">Purvija Deshmukh</div>
-                      </div>
+                      <div className="cursor-pointer text-sm font-medium text-gray-900" onClick={() => router.push(`/projectView/${doc.name}`)}>{doc.name}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4">
                       <div className="text-sm text-gray-500">{doc.submission_time}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4">
                       <div className="text-sm text-gray-500">{doc.status}</div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4">
                       <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(doc.overall_rating)}`}>
                         {doc.overall_rating}
                       </span>
@@ -164,17 +161,6 @@ export default function Submissions() {
             </table>
           </div>
         )}
-        <div className="flex justify-between items-center mt-6">
-          <div className="flex items-center space-x-2">
-            <button className="bg-gray-200 py-2 px-4 rounded-md">Prev</button>
-            <button className="bg-blue-500 text-white py-2 px-4 rounded-md">1</button>
-            <button className="bg-gray-200 py-2 px-4 rounded-md">2</button>
-            <button className="bg-gray-200 py-2 px-4 rounded-md">3</button>
-            <button className="bg-gray-200 py-2 px-4 rounded-md">...</button>
-            <button className="bg-gray-200 py-2 px-4 rounded-md">10</button>
-            <button className="bg-gray-200 py-2 px-4 rounded-md">Next</button>
-          </div>
-        </div>
       </div>
     </div>
   );

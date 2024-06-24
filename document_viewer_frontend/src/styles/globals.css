@@ -11,5 +11,6 @@ iframe {
 }
 
 .pdf-viewer-container{
-  height: 650px;
+  max-height: 650px;
+  overflow-y: auto;
 }

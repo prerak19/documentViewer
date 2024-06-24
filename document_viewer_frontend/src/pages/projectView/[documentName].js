@@ -16,10 +16,10 @@ export default function Submission() {
   }, [documentName]);
 
   return (
-    documentMetadata ? (
+    documentMetadata !== null ? (
       <DocumentViewer documentMetadata={documentMetadata} />
     ) : (
-      <p>Loading...</p>
+      <p>Please Wait...</p>
     )
   );
 }

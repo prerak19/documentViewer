@@ -94,7 +94,7 @@ export default function DocumentViewer({ documentMetadata: initialDocumentMetada
             </div>
           )}
         </div>
-        {documentMetadata && (
+        {documentMetadata !== null && (
           <div className="col-span-10 lg:col-span-3 mr-4 ml-2">
             <div className="bg-white p-4 rounded-lg shadow-md mb-4">
               <h3 className="font-bold">Document Score</h3>
@@ -134,7 +134,7 @@ export default function DocumentViewer({ documentMetadata: initialDocumentMetada
             </div>
             <div className="bg-white p-4 rounded-lg shadow-md">
               <h2 className="font-bold">Result Summary</h2>
-              <div className="mt-4 bg-gray-50">
+              {documentMetadata.assessment_criteria && <div className="mt-4 bg-gray-50">
                 <div className="flex items-center justify-between py-2 px-4">
                   <h3 className="text-md font-medium">Relevance to Critical Technology Areas</h3>
                   <span className="text-md font-bold text-orange-500">{documentMetadata.assessment_criteria.criteria_1.score}</span>
@@ -151,13 +151,13 @@ export default function DocumentViewer({ documentMetadata: initialDocumentMetada
                   <h3 className="text-md font-medium">Connection to U.S DoD Programs</h3>
                   <span className="text-md font-bold text-red-500">{documentMetadata.assessment_criteria.criteria_4.score}</span>
                 </div>
-              </div>
+              </div>}
               <button className="mt-2 w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Download Assessment</button>
             </div>
           </div>
         )}
       </div>
-      {documentMetadata && (
+      {documentMetadata !== null && documentMetadata.assessment_criteria !== null && (
         <div className="bg-gray-50 p-8 rounded-md shadow-md my-4">
           <div className="flex justify-center">
             {criteriaTabs.map((tab, index) => (
@@ -181,7 +181,7 @@ export default function DocumentViewer({ documentMetadata: initialDocumentMetada
                 </tr>
               </thead>
               <tbody>
-                {Object.entries(documentMetadata.assessment_criteria).map(
+                {documentMetadata.assessment_criteria && Object.entries(documentMetadata.assessment_criteria).map(
                   ([criteria, data], index) => (
                     <tr key={index}>
                       <td className="px-3 py-4">{criteria.replace('_', ' ').toUpperCase()}</td>

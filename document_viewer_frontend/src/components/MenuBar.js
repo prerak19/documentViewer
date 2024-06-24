@@ -1,15 +1,8 @@
 import { useState } from 'react';
 import { FaUser } from 'react-icons/fa';
 
-export default function Navbar() {
+export default function MenuBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState('projectView');
-
-  const getLinkClass = (tabName) => {
-    return tabName === activeTab
-      ? 'bg-white text-blue-600 pt-2 pb-2 px-4 rounded-t-lg shadow-lg'
-      : 'text-white hover:text-blue-300';
-  };
 
   return (
     <nav className="bg-gradient-to-r from-blue-600 to-blue-500 pt-4 px-6 shadow-md">
@@ -22,7 +15,7 @@ export default function Navbar() {
         <div className="hidden md:flex space-x-8">
           <span className="text-white hover:text-blue-300"> Home </span>
           <span className="text-white hover:text-blue-300"> All Projects </span>
-          <span className="bg-white text-blue-600 pt-2 pb-2 px-4 rounded-t-lg shadow-lg"> Project View </span>
+          <span className="bg-white text-blue-600 pt-2 pb-2 px-4 rounded-t-lg"> Project View </span>
         </div>
         <div className="flex items-center">
           <FaUser className="text-white mr-2" />
@@ -55,15 +48,9 @@ export default function Navbar() {
       </div>
       {isMenuOpen && (
         <div className="md:hidden mt-4 space-y-2">
-          <a href="/" className={getLinkClass('Home')} onClick={() => setActiveTab('Home')}>
-            Home
-          </a>
-          <a href="/all-projects" className={getLinkClass('All Projects')} onClick={() => setActiveTab('All Projects')}>
-            All Projects
-          </a>
-          <a href="/project-view" className={getLinkClass('Project View')} onClick={() => setActiveTab('Project View')}>
-            Project View
-          </a>
+          <span className="text-white hover:text-blue-300"> Home </span>
+          <span className="text-white hover:text-blue-300"> All Projects </span>
+          <span className="bg-white text-blue-600 pt-2 pb-2 px-4 rounded-t-lg"> Project View </span>
         </div>
       )}
     </nav>
