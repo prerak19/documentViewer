@@ -79,32 +79,32 @@ export default function Submissions() {
                 Upload More Data
                 <input type="file" onChange={handleFileChange} className="hidden" />
               </label>
-              <button className="bg-white py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start w-full sm:w-auto">
+              <button className="py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start w-full sm:w-auto">
                 <FaSearch />
               </button>
             </div>
           </div>
           <div className="flex flex-wrap justify-center sm:justify-start mt-4 sm:mt-0 space-x-2 sm:space-x-4">
             <button
-              className={`bg-white py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start ${view === 'grid' ? 'bg-blue-100' : ''}`}
+              className={`py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start ${view === 'grid' ? 'bg-blue-500 text-white ' : ''}`}
               onClick={() => setView('grid')}
             >
               <CiGrid41 />
             </button>
             <button
-              className={`bg-white py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start ${view === 'list' ? 'bg-blue-100' : ''}`}
+              className={`py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start ${view === 'list' ? 'bg-blue-500 text-white ' : ''}`}
               onClick={() => setView('list')}
             >
               <FaListUl />
             </button>
-            <button className="bg-white py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start">
+            <button className="py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start">
               <TbArrowsSort />
             </button>
-            <button className="bg-white py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start">
+            <button className="py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start">
               <FaMousePointer className="mr-2" />
               Select
             </button>
-            <button className="bg-white py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start">
+            <button className="py-2 px-4 rounded-md border border-gray-300 flex items-center justify-center sm:justify-start">
               <FaTrashAlt />
             </button>
           </div>
