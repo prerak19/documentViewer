@@ -21,7 +21,7 @@ This is a Document Viewer web application that allows users to select and view P
 
 ### Prerequisites
 
-- Node.js and npm
+- Node.js (>= v18.17.0) and npm
 - Python 3.7+
 - pip (Python package installer)
 
