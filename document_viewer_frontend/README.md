@@ -24,6 +24,7 @@ This is a Document Viewer web application that allows users to select and view P
 - Node.js (>= v18.17.0) and npm
 - Python 3.7+
 - pip (Python package installer)
+- Install pdfjs Dependencies
 
 ### Backend Setup
 
@@ -53,8 +54,18 @@ This is a Document Viewer web application that allows users to select and view P
    ```bash
    npm install
 
+2. **Install pdfjs Dependencies**
+    React PDF Viewer uses the APIs provided by the popular pdfjs library. Execute the following command from the root folder to install pdfjs:
+    ``` bash
+    npm install @react-pdf-viewer/core@latest
+    ```
+    ```bash
+    npm install pdfjs-dist@3.4.120
+    ```
+
 2. **Start the NextJS Frontend**
    ```bash
     npm run dev
 
 3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
